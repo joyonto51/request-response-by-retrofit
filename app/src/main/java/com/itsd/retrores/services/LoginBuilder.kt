@@ -1,8 +1,5 @@
 package com.itsd.retrores.services
 
-import android.util.Base64
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -11,16 +8,20 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
 object LoginBuilder {
-    private const val url = "http://192.168.0.167:8500/"
+    // Base URL
+    private const val baseURL = "http://192.168.0.167:8500/"
 
+    // OkHttp Client
     private val okHttp: OkHttpClient.Builder = OkHttpClient.Builder()
         .addNetworkInterceptor(AddHeaderInterceptor())
 
+    // Retrofit Builder
     private val builder: Retrofit.Builder = Retrofit.Builder()
-        .baseUrl(url)
+        .baseUrl(baseURL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttp.build())
 
+    // Finally Building the Retrofit Builder
     private val retrofit: Retrofit = builder.build()
 
 
@@ -29,8 +30,10 @@ object LoginBuilder {
     }
 }
 
-
+// Credential
 //val credential:String = "Basic " + Base64.encodeToString("jayanta:django123".toByteArray(), Base64.NO_WRAP)
+
+// Credential
 val credential:String = Credentials.basic("jayanta", "django123")
 
 class AddHeaderInterceptor : Interceptor {
@@ -38,9 +41,9 @@ class AddHeaderInterceptor : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
 
+        // Adding Authorization Header with request builder
         val builder = chain.request().newBuilder()
             .addHeader("Authorization", credential)
-
 
         return chain.proceed(builder.build())
     }

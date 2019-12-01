@@ -8,6 +8,8 @@ import retrofit2.http.*
 
 interface LoginServices {
 
+    // Interface Method
     @POST("test-app/data/")
     fun getUserData(@Body jsonObject: JsonObject): Call<User>
+
 }

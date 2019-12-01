@@ -1,5 +1,7 @@
 package com.itsd.retrores.models
 
+
+// Data Class For Taking Response Data
 data class User (
     val id: Int? = 0,
     val fb_id: String? = null,

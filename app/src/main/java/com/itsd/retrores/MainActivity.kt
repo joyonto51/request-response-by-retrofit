@@ -25,23 +25,24 @@ class MainActivity : AppCompatActivity() {
         val button = button
 
         button.setOnClickListener{
+            // Called the Login Method
             Login()
         }
     }
 
+
     private fun Login(){
+        // Sample Json Object
+        val jsonObject = sampleJsonObject()
 
-        val jsonObject = JsonObject()
-        jsonObject.addProperty("user","Asif")
-        val citiesArray = JsonArray()
-        citiesArray.add("Dhaka")
-        citiesArray.add("Örebro")
-        jsonObject.add("cities", citiesArray)
-
+        // Building the Login Service
         val loginBuilder = LoginBuilder.buildService(LoginServices::class.java)
 
+        // Calling Service Method
         val requestCall = loginBuilder.getUserData(jsonObject)
 
+
+        // API Response
         requestCall.enqueue(object: Callback<User> {
 
             override fun onResponse(call: Call<User>, response: Response<User>) {
@@ -56,5 +57,18 @@ class MainActivity : AppCompatActivity() {
                 textView.text = "Failed"
             }
         })
+    }
+
+    // Sample Json Object Generator Function
+    private fun sampleJsonObject():JsonObject {
+        val jsonObject = JsonObject()
+
+        jsonObject.addProperty("user","Asif")
+        val citiesArray = JsonArray()
+        citiesArray.add("Dhaka")
+        citiesArray.add("Örebro")
+        jsonObject.add("cities", citiesArray)
+
+        return jsonObject
     }
 }
